@@ -1,59 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Libya Knowledge Base (RAG-Enabled)
 
-## About Laravel
+A modern, AI-powered Knowledge Base application built with **Laravel 12**, **Vue.js 3**, and **Bootstrap 5**. This application serves as both a public-facing documentation site and a comprehensive admin panel for managing content and monitoring AI interactions.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It is designed to work in tandem with a Python RAG (Retrieval-Augmented Generation) microservice to provide an intelligent chatbot assistant.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Key Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Public Interface
+* **Full Vue 3 SPA:** The entire visitor experience (Home, Categories, Articles, Search) is a fast, interactive Single Page Application built with Vue 3.
+* **Interactive Chatbot:** Integrated floating chat component that queries a local LLM (via Python API) to answer user questions based on knowledge base content.
+* **Smart Search:** Full-text search capabilities with instant filtering.
+* **Responsive Design:** Built with Bootstrap 5.3 and custom CSS.
 
-## Learning Laravel
+### Admin Dashboard (SPA)
+* **Dedicated Admin SPA:** A separate, protected Vue 3 application for administrators.
+* **Secure Authentication:** Powered by Laravel Sanctum (stateful cookie-based auth).
+* **Content Management:** Full CRUD for articles, and categories.
+* **Rich Text Editor:** Integrated Quill editor with automatic HTML sanitization (HTMLPurifier).
+* **RAG Monitoring:**
+    * **Sync Status:** Track which articles need to be re-embedded.
+    * **Chat History:** View full logs of user queries and AI responses.
+    * **Content Gap:** Analyze unanswered questions to improve your KB.
+    * **Pipeline Control:** Trigger Python ingestion scripts directly from the UI.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Prerequisites
 
-## Laravel Sponsors
+* **PHP:** 8.4
+* **Composer**
+* **Node.js** & **NPM** (Tested on 25.2.1 and 11.6.2 respectively)
+* **MySQL** (Primary Database, Tested on 8.0)
+* **Python Environment** (For the RAG microservice - see separate docs)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Installation
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1.  **Clone the Repository**
+    
+    ```bash
+    git clone https://github.com/wesamly/libya-rag-kb.git
+    cd libya-rag-kb
+    ```
 
-## Contributing
+2.  **Install PHP Dependencies**
+    
+    ```bash
+    composer install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3.  **Install Frontend Dependencies**
+    
+    ```bash
+    npm install
+    ```
 
-## Code of Conduct
+4.  **Environment Setup**
+    Copy the example environment file and configure your variables.
+    
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5.  **Configure Database (.env)**
+    Update your `.env` file with your MySQL credentials.
+    
+    ```ini
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_kb_db
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-## Security Vulnerabilities
+6.  **Configure RAG Service (.env)**
+    Add the configuration for connecting to your Python API and scripts.
+    
+    ```ini
+    # URL for the Chatbot to call (Ollama/Python API)
+    PYTHON_RAG_API_URL=http://127.0.0.1:8000/ask
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    # Paths for the "Sync Now" admin button
+    PYTHON_PATH=/path/to/your/venv/bin/python
+    INGEST_SCRIPT_PATH=/path/to/your/libya_rag_api/ingest.py
+    ```
+
+7.  **Run Migrations**
+    Create the database tables.
+    
+    ```bash
+    php artisan migrate
+    ```
+    *Optionally seed a default admin user:*
+    
+    ```bash
+    php artisan db:seed
+    ```
+    
+---
+
+## Running the Application
+
+You need to run both the backend server and the frontend build process.
+
+**Terminal 1: Laravel Server**
+
+```bash
+php artisan serve
+```
+
+**Terminal 2: Vite (Frontend Assets)**
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:8000` (or your configured local domain).
+
+-----
+
+## Architecture Overview
+
+### Dual-SPA Frontend Strategy
+
+This project uses a modern "Dual SPA" approach to separate public and admin concerns while maintaining a smooth user experience:
+
+1.  **Visitor App (`resources/js/app.js`):**
+
+      * **Entry Point:** `resources/views/public.blade.php`
+      * **Tech Stack:** Vue 3 + Vue Router.
+      * **Function:** Handles the entire public site (Home, Article viewing, Search) as a single-page application for speed and fluidity.
+      * **Integration:** The AI Chatbox is a core component of this app, available on every route.
+
+2.  **Admin App (`resources/js/admin.js`):**
+
+      * **Entry Point:** `resources/views/admin.blade.php`
+      * **Tech Stack:** Vue 3 + Vue Router + Laravel Sanctum.
+      * **Function:** A completely separate, secure SPA for content management and analytics.
+      * **Security:** Protected by Laravel's `auth` middleware; the blade file is only served to authenticated users.
+
+### RAG Pipeline Integration
+
+  * **Synchronization Flag:** The `articles` table has a `needs_sync` boolean column.
+  * **Auto-Flagging:** When an article is created or updated via the `Article` model, a Mutator automatically cleans the HTML and sets `needs_sync = 1`.
+  * **Ingestion:** The Python script queries MySQL for `needs_sync = 1` articles, embeds them, saves to ChromaDB, and then updates MySQL to set `needs_sync = 0`.
+
+-----
+
+## Security Note: HTML Sanitization
+
+This application allows admins to write HTML content. To prevent XSS attacks while preserving formatting for the RAG pipeline, we use **HTMLPurifier** on the backend.
+
+  * **Config:** `config/purifier.php`
+  * **Behavior:** Automatically strips dangerous tags (`<script>`, `<iframe>`, `<style>`) and layout tags (`<div>`, `<table>`) but preserves semantic content tags (`<p>`, `<ul>`, `<b>`, etc.) required for the vector embedding process.
+
+-----
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Project is released under the [MIT License](https://opensource.org/licenses/MIT).
