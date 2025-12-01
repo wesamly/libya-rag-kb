@@ -65,7 +65,6 @@ const routes = [
                 name: 'admin.logs',
                 component: ChatHistory // This is the "AI Interaction Logs" page
             },
-            // Add routes for Users, Settings, etc. later
         ]
     },
     // Add a 404 route later

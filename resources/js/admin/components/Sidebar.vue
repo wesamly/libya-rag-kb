@@ -36,27 +36,9 @@
           AI Logs
         </router-link>
       </li>
-      <li>
-        <a href="#" class="nav-link text-white"> <!-- Add route later -->
-          <i class="bi bi-people-fill me-2"></i>
-          Users
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white"> <!-- Add route later -->
-          <i class="bi bi-gear-fill me-2"></i>
-          Settings
-        </a>
-      </li>
     </ul>
     <hr>
     <ul class="nav nav-pills flex-column">
-      <li>
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-question-circle-fill me-2"></i>
-          Help Center
-        </a>
-      </li>
       <li>
         <a @click.prevent="doLogout" href="#" class="nav-link text-white">
           <i class="bi bi-box-arrow-left me-2"></i>

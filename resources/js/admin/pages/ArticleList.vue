@@ -110,7 +110,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 const articles = ref([]);
@@ -123,6 +124,9 @@ const filters = ref({
   status: '',
   sync: '',
 });
+
+const route = useRoute();
+const router = useRouter();
 
 const fetchData = async (page = 1) => {
   loading.value = true;
@@ -149,6 +153,8 @@ const fetchCategories = async () => {
 };
 
 const applyFilters = () => {
+  // Update the URL to reflect the current filters
+  router.push({ query: { ...route.query, search: filters.value.search } });
   fetchData(1); // Reset to page 1
 };
 
@@ -183,8 +189,14 @@ const formatRelativeTime = (date) => {
   return "Just now";
 };
 
+// Watch for changes in the route's query parameters
+watch(() => route.query.search, (newSearchTerm) => {
+  filters.value.search = newSearchTerm || '';
+  fetchData(1);
+}, { immediate: true }); // immediate: true runs the watcher on component load
+
 onMounted(() => {
-  fetchData();
+  // Initial data fetch is now handled by the watcher
   fetchCategories();
 });
 </script>
