@@ -37,35 +37,17 @@ class ChatHistoryController extends Controller
     {
         $log = ChatHistory::findOrFail($id);
 
-        // Get the full context from Postgres
-        $context = [];
+        $retrieved_articles = [];
+        
+        // If we have IDs, fetch the actual Article objects from MySQL
         if (!empty($log->retrieved_article_ids)) {
-            try {
-                $chunks = DB::connection('pgsql')->table('article_vectors')
-                    ->whereIn('mysql_id', $log->retrieved_article_ids)
-                    ->get(['mysql_id', 'chunk_text']);
-                
-                // Group chunks by article ID
-                foreach ($chunks as $chunk) {
-                    $context[] = [
-                        'article_id' => $chunk->mysql_id,
-                        'text' => Str::limit($chunk->chunk_text, 300)
-                    ];
-                }
-            } catch (\Exception $e) {
-                report($e);
-                $context[] = ['article_id' => 0, 'text' => 'Error: Could not connect to vector DB.'];
-            }
+             $retrieved_articles = Article::whereIn('id', $log->retrieved_article_ids)
+                            ->get(['id', 'title', 'slug', 'content']); // Fetch content for preview
         }
         
-        // Get Article titles
-        $articles = Article::whereIn('id', $log->retrieved_article_ids ?? [])
-                        ->get(['id', 'title', 'slug']);
-
         return response()->json([
             'log' => $log,
-            'retrieved_articles' => $articles,
-            'retrieved_context' => $context,
+            'retrieved_articles' => $retrieved_articles,
         ]);
     }
 }

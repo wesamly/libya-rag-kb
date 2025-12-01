@@ -69,15 +69,6 @@
           </div>
           <p v-else class="text-muted">No articles were retrieved for this response.</p>
         </div>
-
-        <div class="mb-4">
-          <h6 class="text-muted text-uppercase small fw-bold">Retrieved Context (from Vector DB)</h6>
-          <div class="p-3 rounded" style="background-color: #161b22; border: 1px solid #30363d; font-family: monospace; font-size: 0.85rem;">
-            <div v-for="(context, index) in detailedLog.retrieved_context" :key="index" class="mb-2">
-              <p class="mb-0"><strong>From Article-{{ context.article_id }}:</strong> {{ context.text }}</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
