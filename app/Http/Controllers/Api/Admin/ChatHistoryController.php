@@ -7,6 +7,7 @@ use App\Models\ChatHistory;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ChatHistoryController extends Controller
 {
@@ -64,7 +65,7 @@ class ChatHistoryController extends Controller
         return response()->json([
             'log' => $log,
             'retrieved_articles' => $articles,
-            'retrieved_context'G' => $context,
+            'retrieved_context' => $context,
         ]);
     }
 }
