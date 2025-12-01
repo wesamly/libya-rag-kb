@@ -1,6 +1,6 @@
 <template>
   <nav class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px; background-color: #161b22; border-right: 1px solid #30363d;">
-    <router-link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none gap-2">
+    <router-link to="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none gap-2">
       <i class="bi bi-book-half fs-4"></i>
       <span class="fs-5 fw-semibold">Knowledge Base</span>
     </router-link>
