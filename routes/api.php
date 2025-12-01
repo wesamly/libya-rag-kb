@@ -42,5 +42,6 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     // AI / RAG Analytics
     Route::get('/chat-history', [ChatHistoryController::class, 'index']);
     Route::get('/chat-history/{id}', [ChatHistoryController::class, 'show']);
+    Route::get('/content-gap/export', [ContentGapController::class, 'export']);
     Route::get('/content-gap', [ContentGapController::class, 'index']);
 });

@@ -6,18 +6,23 @@
         <h1 class="h2 fw-bold mb-1">Unanswered Questions</h1>
         <p class="text-muted">Review questions from users where the AI could not find a relevant answer.</p>
       </div>
-      <button class="btn btn-secondary"><i class="bi bi-download me-1"></i> Export to CSV</button>
+      <button class="btn btn-secondary" @click="exportCSV"><i class="bi bi-download me-1"></i> Export to CSV</button>
     </div>
 
     <!-- Filters -->
     <div class="card mb-4">
-      <div class="card-body d-flex gap-3">
-        <select class="form-select" style="width: 180px;">
-          <option>Last 7 Days</option>
-          <option>Last 30 Days</option>
-          <option>This Quarter</option>
-          <option>Custom Range</option>
+      <div class="card-body d-flex gap-3 align-items-center">
+        <select class="form-select" style="width: 180px;" v-model="filters.date_range" @change="fetchData(1)">
+          <option value="7d">Last 7 Days</option>
+          <option value="30d">Last 30 Days</option>
+          <option value="quarter">This Quarter</option>
+          <option value="custom">Custom Range</option>
         </select>
+
+        <div v-if="filters.date_range === 'custom'" class="d-flex gap-2">
+            <input type="date" class="form-control" v-model="filters.start_date" @change="fetchData(1)">
+            <input type="date" class="form-control" v-model="filters.end_date" @change="fetchData(1)">
+        </div>
       </div>
     </div>
 
@@ -82,11 +87,16 @@ import axios from 'axios';
 const gaps = ref([]);
 const loading = ref(true);
 const pagination = ref({});
+const filters = ref({
+  date_range: '30d',
+  start_date: '',
+  end_date: ''
+});
 
 const fetchData = async (page = 1) => {
   loading.value = true;
   try {
-    const params = { page };
+    const params = { page, ...filters.value };
     const response = await axios.get('/api/admin/content-gap', { params });
     gaps.value = response.data.data;
     pagination.value = response.data;
@@ -95,6 +105,26 @@ const fetchData = async (page = 1) => {
   } finally {
     loading.value = false;
   }
+};
+
+const exportCSV = async () => {
+    try {
+        const params = { ...filters.value };
+        const response = await axios.get('/api/admin/content-gap/export', { 
+            params,
+            responseType: 'blob'
+        });
+        
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'content_gap_export.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        console.error("Failed to export CSV:", error);
+    }
 };
 
 const formatRelativeTime = (date) => {
