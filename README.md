@@ -89,16 +89,16 @@ It is designed to work in tandem with a Python RAG (Retrieval-Augmented Generati
     INGEST_SCRIPT_PATH=/path/to/your/libya_rag_api/ingest.py
     ```
 
-7.  **Run Migrations**
-    Create the database tables.
+7.  **Run Migrations & Seeders**
+    Create the database tables and optionally populate them with initial data.
     
     ```bash
     php artisan migrate
+    php artisan db:seed # This will run all seeders, including the admin user, articles, and categories data.
     ```
-    *Optionally seed a default admin user:*
-    
+    To run specific seeders (e.g., only the admin user seeder), use:
     ```bash
-    php artisan db:seed
+    php artisan db:seed --class=AdminUserSeeder
     ```
     
 ---
