@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\ArticleController;
+use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\KnowledgeBaseController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ContentGapController;
@@ -37,7 +38,7 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     Route::apiResource('articles', ArticleController::class);
     
     // Categories (Full CRUD)
-    // Route::apiResource('categories', CategoryController::class); // <-- Add this later
+    Route::apiResource('categories', CategoryController::class);
 
     // AI / RAG Analytics
     Route::get('/chat-history', [ChatHistoryController::class, 'index']);

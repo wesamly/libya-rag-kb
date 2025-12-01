@@ -9,6 +9,7 @@ const ArticleList = () => import('./pages/ArticleList.vue');
 const ArticleEditor = () => import('./pages/ArticleEditor.vue');
 const ChatHistory = () => import('./pages/ChatHistory.vue');
 const ContentGap = () => import('./pages/ContentGap.vue');
+const CategoryList = () => import('./pages/CategoryList.vue');
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
                 name: 'admin.articles.edit',
                 component: ArticleEditor,
                 props: true
+            },
+            {
+                path: 'categories',
+                name: 'admin.categories',
+                component: CategoryList
             },
             {
                 path: 'analytics',

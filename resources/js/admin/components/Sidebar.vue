@@ -19,10 +19,10 @@
         </router-link>
       </li>
       <li>
-        <a href="#" class="nav-link text-white"> <!-- Add route later -->
+        <router-link :to="{ name: 'admin.categories' }" class="nav-link text-white">
           <i class="bi bi-tags-fill me-2"></i>
           Categories
-        </a>
+        </router-link>
       </li>
       <li>
         <router-link :to="{ name: 'admin.analytics' }" class="nav-link text-white">
