@@ -1,11 +1,15 @@
+// Import Bootstrap's SCSS
+import 'bootstrap/scss/bootstrap.scss';
+
 import './bootstrap'; // Laravel's bootstrap (for axios)
 import { createApp } from 'vue';
 import App from './admin/App.vue';
 import router from './admin/router';
 import auth from './admin/store/auth';
 
-// Import Bootstrap's JS functionality
-import 'bootstrap';
+// Import and initialize Bootstrap's JS functionality
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 // Initialize the auth store
 auth.init();

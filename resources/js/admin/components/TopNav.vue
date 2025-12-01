@@ -16,13 +16,12 @@
       <button class="btn btn-link nav-link p-0 fs-5" style="color: #8b949e;">
         <i class="bi bi-gear-fill"></i>
       </button>
-
       <div class="dropdown">
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <img v-if="auth.user" :src="`https://ui-avatars.com/api/?name=${auth.user.name}&background=0d6efd&color=fff&rounded=true`" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="background-color: #161b22;">
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small shadow" style="background-color: #161b22;">
+          <li><router-link class="dropdown-item" :to="{ name: 'admin.profile' }">Profile</router-link></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><hr class="dropdown-divider" style="border-color: #30363d;"></li>
           <li><a class="dropdown-item" @click.prevent="auth.logout" href="#">Sign out</a></li>

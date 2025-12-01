@@ -10,6 +10,7 @@ const ArticleEditor = () => import('./pages/ArticleEditor.vue');
 const ChatHistory = () => import('./pages/ChatHistory.vue');
 const ContentGap = () => import('./pages/ContentGap.vue');
 const CategoryList = () => import('./pages/CategoryList.vue');
+const UserProfile = () => import('./pages/UserProfile.vue');
 
 const routes = [
     {
@@ -48,6 +49,11 @@ const routes = [
                 path: 'categories',
                 name: 'admin.categories',
                 component: CategoryList
+            },
+            {
+                path: 'profile',
+                name: 'admin.profile',
+                component: UserProfile
             },
             {
                 path: 'analytics',
