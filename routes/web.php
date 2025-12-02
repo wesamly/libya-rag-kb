@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 // --- Chat Route ---
-Route::post('/chat', [KnowledgeBaseController::class, 'handleChat'])->name('chat.submit');
+Route::post('/chat', [KnowledgeBaseController::class, 'handleChat'])->name('chat.submit');//->middleware('throttle:10,1'); // Limit to 10 requests per minute if needed
 
 // --- Authentication Routes ---
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
